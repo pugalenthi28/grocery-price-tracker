@@ -21,7 +21,7 @@ const productTypes: { [key: string]: string[] } = {
 };
 
 export default function Home() {
-  const [checkingBalance, setCheckingBalance] = useState(0);
+  // const [checkingBalance, setCheckingBalance] = useState(0);
   const [bills, setBills] = useState<Bill[]>([]); // Bills now include 'id'
   const [newBill, setNewBill] = useState<Bill>({
     id: 0,
@@ -153,7 +153,7 @@ export default function Home() {
           <h1>💳 Credit Tracker</h1>
           <div className={styles.balanceDetails}>
             <p>
-              <strong>Checking Balance:</strong> ${checkingBalance.toFixed(2)}
+              {/* <strong>Checking Balance:</strong> ${checkingBalance.toFixed(2)} */}
             </p>
             <p>
               {/* <strong>Total Bills:</strong> ${totalBills.toFixed(2)} */}
@@ -204,7 +204,7 @@ export default function Home() {
 
                     return a.product.localeCompare(b.product); // Finally, sort by card type
                   }).reduce(
-                    (acc: { bill: Bill; monthYear: string; billDate: Date }[], bill, index) => {
+                    (acc: { bill: Bill; monthYear: string; billDate: Date }[], bill) => {
                       let newBalance;
 
                       const [year, month, day] = bill.date ? bill.date.split("-").map(Number) : [0, 0, 0];
