@@ -18,7 +18,8 @@ type Bill = {
 
 
 const productList: { [key: string]: string[] } = {
-  "Vegetables": ["Cilantro", "Coriander","Spinach","Okra","Green Beans","Green Chillies","Egg Plant"]
+  "Vegetables": ["Cilantro", "Coriander","Spinach","Okra","Green Beans","Green Chillies","Egg Plant","Mint","Karela"],
+  "Rice": ["Idly", "Sona Maasori"]
 };
 
 export default function Home() {
@@ -234,7 +235,7 @@ export default function Home() {
                         {isNewMonth && (
                           <tr className={styles.monthHeaderRow}>
                             <td colSpan={6} className={styles.monthHeader}>
-                              {displayMonthYear}&ensp;-&ensp;
+                              {displayMonthYear} Pricing&ensp;
                             </td>
                           </tr>
                         )}
@@ -306,34 +307,32 @@ export default function Home() {
                   ))}
               </select>
               <input
-                type="number"
-                name="apna_amount"
-                placeholder="Apna Bazaar"
-                value={newBill.apna_amount}
-                onChange={handleChange}
-                required
-                // min="0"
-                step="0.01"
-              />
-                  <input
-                type="number"
-                name="ism_amount"
-                placeholder="India Supermarket"
-                value={newBill.ism_amount}
-                onChange={handleChange}
-                required
-                // min="0"
-                step="0.01"
-              />
-              <select
-                name="type"
-                value={newBill.per_lb_pc}
-                onChange={handleChange}
-                required
-              >
-                <option value="LBS">lbs</option>
-                <option value="EACH">ea</option>
-              </select>
+  type="number"
+  name="apna_amount"
+  placeholder="Apna Bazaar"
+  value={newBill.apna_amount === 0 ? "" : newBill.apna_amount}
+  onChange={handleChange}
+  step="0.01"
+/>
+
+<input
+  type="number"
+  name="ism_amount"
+  placeholder="India Supermarket"
+  value={newBill.ism_amount === 0 ? "" : newBill.ism_amount}
+  onChange={handleChange}
+  step="0.01"
+/>
+         <select
+  name="per_lb_pc"
+  value={newBill.per_lb_pc}
+  onChange={handleChange}
+  required
+>
+  <option value="">Select Unit</option>
+  <option value="LBS">lbs</option>
+  <option value="EACH">ea</option>
+</select>
             </div>
             <div className={styles.modalButtons}>
               <button
