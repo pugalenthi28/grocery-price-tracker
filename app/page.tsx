@@ -17,7 +17,7 @@ type Bill = {
 };
 
 
-const productTypes: { [key: string]: string[] } = {
+const productList: { [key: string]: string[] } = {
   "Vegetables": ["Cilantro", "Coriander","Spinach","Okra","Green Beans","Green Chillies","Egg Plant"]
 };
 
@@ -280,13 +280,13 @@ export default function Home() {
                 value={newBill.date}
                 onChange={handleChange}
               />
-              <select
+                         <select
                 name="product"
                 value={newBill.product}
                 onChange={handleChange}
               >
-                <option value="">Select Product</option>
-                {Object.keys(productTypes).map((product) => (
+                <option value="">Select Company</option>
+                {Object.keys(productList).map((product) => (
                   <option key={product} value={product}>
                     {product}
                   </option>
@@ -294,12 +294,12 @@ export default function Home() {
               </select>
               <select
                 name="productType"
-                value={newBill.product}
+                value={newBill.productType}
                 onChange={handleChange}
               >
-                <option value="">Select Product Type</option>
+                <option value="">Select Card Type</option>
                 {newBill.product &&
-                  productTypes[newBill.product]?.map((productType) => (
+                  productList[newBill.product]?.map((productType) => (
                     <option key={productType} value={productType}>
                       {productType}
                     </option>
