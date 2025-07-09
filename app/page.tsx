@@ -10,6 +10,7 @@ type Bill = {
   id: number; // The auto-generated primary key
   date: string;
   product: string;
+  productType: string;
   apna_amount: number;
   ism_amount: number;
   per_lb_pc: string;
@@ -27,6 +28,7 @@ export default function Home() {
     id: 0,
     date: "",
     product: "",
+    productType: "",
     apna_amount: 0,
     ism_amount: 0,
     per_lb_pc: "", // Default is Debit
@@ -90,6 +92,7 @@ export default function Home() {
         id: 0,
         date: "",
         product: "",
+        productType: "",
         apna_amount: 0,
         ism_amount: 0,
         per_lb_pc: "",
@@ -234,7 +237,7 @@ export default function Home() {
                         )}
                         <tr style={isNewMonth ? { borderTop: "2px solid black" } : {}}>
                           <td className={styles.tableCell}>{bill.date}</td>
-                          <td className={styles.tableCell}>{bill.product}</td>
+                          <td className={styles.tableCell}>{bill.productType}</td>
                           <td className={styles.tableCell}>${bill.apna_amount}</td>
                           <td className={styles.tableCell}>${bill.ism_amount}</td>
                           <td className={styles.tableCell}>{bill.per_lb_pc}</td>
