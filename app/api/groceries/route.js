@@ -21,13 +21,13 @@ export async function GET() {
 }
 
 export async function POST(req) {
-  const { date, cardType, company, amount, type } = await req.json();
+  const { date, product, productType, apna_amount, ism_amount, per_lb_pc } = await req.json();
 
   try {
     // Insert a new bill into Supabase
     const { data, error } = await supabase
       .from('groceries')
-      .insert([{ date, cardType, company, amount, type }]);
+      .insert([{ date, product, productType, apna_amount, ism_amount, per_lb_pc }]);
 
     if (error) throw error;
 

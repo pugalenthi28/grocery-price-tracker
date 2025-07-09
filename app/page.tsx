@@ -9,25 +9,15 @@ import { Plus } from "lucide-react"; // Import an icon
 type Bill = {
   id: number; // The auto-generated primary key
   date: string;
-  cardType: string;
-  company: string;
-  amount: number;
-  type: "Debit" | "Credit";
+  product: string;
+  apna_amount: number;
+  ism_amount: number;
+  per_lb_pc: string;
 };
 
 
-const companyCardTypes: { [key: string]: string[] } = {
-  "Bank Of America": ["Alaska Airlines", "Premium Rewards", "Checking", "Credit", "Target Debit", "Salary", "Investments"],
-  "American Express": [
-    "Business Platinum", "Personal Gold", "Personal Green", "Macys", "Personal Blue Cash", "Delta Gold", "Personal Platinum"
-  ],
-  "Chase": ["Southwest", "Aeroplan", "Amazon", "Freedom", "Freedom Unlimited"],
-  "Barclays": ["Emirates"],
-  "Discover": ["Miles"],
-  "Citi": ["Rewards", "American Airlines", "Best Buy"],
-  "Gold Man Sachs": ["Apple Card"],
-  "Capital One": ["Venture X", "Venture", "BJs"],
-  "Utilities": ["Gas", "Electricity", "Internet", "Mobile"]
+const productTypes: { [key: string]: string[] } = {
+  "Vegetables": ["Cilantro", "Coriander","Spinach","Okra","Green Beans","Green Chillies","Egg Plant"]
 };
 
 export default function Home() {
@@ -36,10 +26,10 @@ export default function Home() {
   const [newBill, setNewBill] = useState<Bill>({
     id: 0,
     date: "",
-    cardType: "",
-    company: "",
-    amount: 0,
-    type: "Debit", // Default is Debit
+    product: "",
+    apna_amount: 0,
+    ism_amount: 0,
+    per_lb_pc: "", // Default is Debit
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false); // For modal visibility
@@ -53,9 +43,9 @@ export default function Home() {
   const addBill = async () => {
     if (
       !newBill.date ||
-      !newBill.cardType ||
-      !newBill.company ||
-      !newBill.amount
+      !newBill.product ||
+      !newBill.apna_amount ||
+      !newBill.ism_amount
     ) {
       alert("Please fill in all fields.");
       return;
@@ -66,10 +56,10 @@ export default function Home() {
         method: "POST",
         body: JSON.stringify({
           date: newBill.date,
-          cardType: newBill.cardType,
-          company: newBill.company,
-          amount: Number(newBill.amount), // Ensure amount is a number
-          type: newBill.type,
+          product: newBill.product,
+          apna_amount: Number(newBill.apna_amount), // Ensure amount is a number
+          ism_amount: Number(newBill.ism_amount), // Ensure amount is a number
+          per_lbs_pc: newBill.per_lb_pc,
         }),
         headers: {
           "Content-Type": "application/json",
@@ -99,10 +89,10 @@ export default function Home() {
       setNewBill({
         id: 0,
         date: "",
-        cardType: "",
-        company: "",
-        amount: 0,
-        type: "Debit",
+        product: "",
+        apna_amount: 0,
+        ism_amount: 0,
+        per_lb_pc: "",
       });
       setIsModalOpen(false);
     } catch (error) {
@@ -125,14 +115,14 @@ export default function Home() {
         setBills(validatedBills);
 
         // Calculate checking balance based on 'Credit' bills
-        const totalCredits = fetchedBills.reduce((sum: number, bill: Bill) => {
-          if (bill.type === "Credit") {
-            return sum + bill.amount;
-          }
-          return sum;
-        }, 0);
+        // const totalCredits = fetchedBills.reduce((sum: number, bill: Bill) => {
+        //   if (bill.per_lb_pc === "Credit") {
+        //     return sum + bill.apna_amount;
+        //   }
+        //   return sum;
+        // }, 0);
 
-        setCheckingBalance(totalCredits); // Set checking balance to the sum of all Credit bills
+        // setCheckingBalance(totalCredits); // Set checking balance to the sum of all Credit bills
       } catch (error) {
         console.error("Error fetching bills:", error);
       }
@@ -142,13 +132,13 @@ export default function Home() {
   }, []); // Empty dependency array to run only on mount
 
   // Total Bills: Sum of all 'Debit' bill amounts
-  const totalBills = bills.reduce(
-    (sum, bill) => (bill.type === "Debit" ? sum + bill.amount : sum),
-    0
-  );
+  // const totalBills = bills.reduce(
+  //   (sum, bill) => (bill.per_lb_pc === "Debit" ? sum + bill.apna_amount : sum),
+  //   0
+  // );
 
   // Remaining Balance: Checking Balance - Total Bills
-  const remainingBalance = checkingBalance - totalBills;
+  // const remainingBalance = checkingBalance - totalBills;
 
   return (
     <div className={styles.container}>
@@ -166,19 +156,19 @@ export default function Home() {
               <strong>Checking Balance:</strong> ${checkingBalance.toFixed(2)}
             </p>
             <p>
-              <strong>Total Bills:</strong> ${totalBills.toFixed(2)}
+              {/* <strong>Total Bills:</strong> ${totalBills.toFixed(2)} */}
             </p>
             <p
-              className={
-                remainingBalance >= 0
-                  ? styles.positiveBalance
-                  : styles.negativeBalance
-              }
+              // className={
+              //   remainingBalance >= 0
+              //     ? styles.positiveBalance
+              //     : styles.negativeBalance
+              // }
             >
               <strong>
-                Remaining Balance: <span className={remainingBalance < 0 ? styles.negativeAmount : ''}>
-                  ${remainingBalance.toFixed(2)}
-                </span>
+                {/* Remaining Balance: <span className={remainingBalance < 0 ? styles.negativeAmount : ''}> */}
+                  {/* ${remainingBalance.toFixed(2)} */}
+                {/* </span> */}
               </strong>            </p>
           </div>
         </div>
@@ -188,17 +178,18 @@ export default function Home() {
 
       {/* Bills Table */}
       <div className={styles.billsTable}>
-        <h2>Upcoming Bills</h2>
+        {/* <h2>Upcoming Bills</h2> */}
         <div className={styles.tableContainer}>
           <table className={styles.table}>
             <thead>
               <tr className={styles.tableHeader}>
                 <th>Date</th>
-                <th>Company</th>
-                <th>Card Type</th>
-                <th>Amount</th>
-                <th>Type</th>
-                <th>Balance</th>
+                <th>Product</th>
+                {/* <th>Card Type</th> */}
+                <th>Apna Bazaar Price</th>
+                <th>India Supermarket Price</th>
+                <th>Per lbs/pc</th>
+                {/* <th>Balance</th> */}
               </tr>
             </thead>
             <tbody>
@@ -208,19 +199,13 @@ export default function Home() {
                     const dateDiff = new Date(a.date).getTime() - new Date(b.date).getTime();
                     if (dateDiff !== 0) return dateDiff; // Sort by date first
 
-                    const companyDiff = a.company.localeCompare(b.company);
+                    const companyDiff = a.product.localeCompare(b.product);
                     if (companyDiff !== 0) return companyDiff; // Then sort by company
 
-                    return a.cardType.localeCompare(b.cardType); // Finally, sort by card type
+                    return a.product.localeCompare(b.product); // Finally, sort by card type
                   }).reduce(
-                    (acc: { bill: Bill; balance: number; monthYear: string; billDate: Date }[], bill, index) => {
+                    (acc: { bill: Bill; monthYear: string; billDate: Date }[], bill, index) => {
                       let newBalance;
-                      if (index === 0) {
-                        newBalance = bill.amount;
-                      } else {
-                        const prevBalance = acc[index - 1].balance;
-                        newBalance = bill.type === "Credit" ? prevBalance + bill.amount : prevBalance - bill.amount;
-                      }
 
                       const [year, month, day] = bill.date ? bill.date.split("-").map(Number) : [0, 0, 0];
                       const billDate = new Date(year, month - 1, day);
@@ -230,7 +215,7 @@ export default function Home() {
                     },
                     []
                   )
-                  .map(({ bill, balance, monthYear, billDate }, index, array) => {
+                  .map(({ bill, monthYear, billDate }, index, array) => {
                     const prevMonthYear = array[index - 1]?.monthYear;
                     const isNewMonth = index === 0 || monthYear !== prevMonthYear;
                     const displayMonthYear = billDate.toLocaleString("default", {
@@ -238,41 +223,21 @@ export default function Home() {
                       year: "numeric",
                     });
 
-                    // **Calculate total credits and debits for this month**
-                    const monthlyBills = array.filter((item) => item.monthYear === monthYear);
-
-                    const totalCredits = monthlyBills.reduce(
-                      (sum, item) => (item.bill.type === "Credit" ? sum + item.bill.amount : sum),
-                      0
-                    );
-                    const totalDebits = monthlyBills.reduce(
-                      (sum, item) => (item.bill.type === "Debit" ? sum + item.bill.amount : sum),
-                      0
-                    );
-
                     return (
                       <React.Fragment key={bill.id}>
                         {isNewMonth && (
                           <tr className={styles.monthHeaderRow}>
                             <td colSpan={6} className={styles.monthHeader}>
                               {displayMonthYear}&ensp;-&ensp;
-                              <span style={{ color: "green" }}>Credits: ${totalCredits.toFixed(2)}</span>&emsp;
-                              <span style={{ color: "red" }}>Debits: ${totalDebits.toFixed(2)}</span>
                             </td>
                           </tr>
                         )}
                         <tr style={isNewMonth ? { borderTop: "2px solid black" } : {}}>
                           <td className={styles.tableCell}>{bill.date}</td>
-                          <td className={styles.tableCell}>{bill.company}</td>
-                          <td className={`${styles.tableCell} ${styles.hideOnMobile}`}>{bill.cardType}</td>
-                          <td className={`${styles.tableCell} ${bill.type === "Credit" ? styles.positiveAmount : styles.negativeAmount}`}>
-                            ${bill.type === "Credit" ? bill.amount : -bill.amount}
-                          </td>
-                          <td className={styles.tableCell}>{bill.type}</td>
-                          {/*                           <td className={styles.tableCell}>${balance.toFixed(2)}</td> */}
-                          <td className={`${styles.tableCell} ${balance < 0 ? styles.negativeAmount : ''}`}>
-                            ${balance.toFixed(2)}
-                          </td>
+                          <td className={styles.tableCell}>{bill.product}</td>
+                          <td className={styles.tableCell}>${bill.apna_amount}</td>
+                          <td className={styles.tableCell}>${bill.ism_amount}</td>
+                          <td className={styles.tableCell}>{bill.per_lb_pc}</td>
                         </tr>
                       </React.Fragment>
                     );
@@ -310,48 +275,58 @@ export default function Home() {
                 onChange={handleChange}
               />
               <select
-                name="company"
-                value={newBill.company}
+                name="product"
+                value={newBill.product}
                 onChange={handleChange}
               >
-                <option value="">Select Company</option>
-                {Object.keys(companyCardTypes).map((company) => (
-                  <option key={company} value={company}>
-                    {company}
+                <option value="">Select Product</option>
+                {Object.keys(productTypes).map((product) => (
+                  <option key={product} value={product}>
+                    {product}
                   </option>
                 ))}
               </select>
               <select
-                name="cardType"
-                value={newBill.cardType}
+                name="productType"
+                value={newBill.product}
                 onChange={handleChange}
               >
-                <option value="">Select Card Type</option>
-                {newBill.company &&
-                  companyCardTypes[newBill.company]?.map((cardType) => (
-                    <option key={cardType} value={cardType}>
-                      {cardType}
+                <option value="">Select Product Type</option>
+                {newBill.product &&
+                  productTypes[newBill.product]?.map((productType) => (
+                    <option key={productType} value={productType}>
+                      {productType}
                     </option>
                   ))}
               </select>
               <input
                 type="number"
-                name="amount"
-                placeholder="Amount"
-                value={newBill.amount}
+                name="apna_amount"
+                placeholder="Apna Bazaar"
+                value={newBill.apna_amount}
                 onChange={handleChange}
                 required
-                min="0"
+                // min="0"
+                step="0.01"
+              />
+                  <input
+                type="number"
+                name="ism_amount"
+                placeholder="India Supermarket"
+                value={newBill.ism_amount}
+                onChange={handleChange}
+                required
+                // min="0"
                 step="0.01"
               />
               <select
                 name="type"
-                value={newBill.type}
+                value={newBill.per_lb_pc}
                 onChange={handleChange}
                 required
               >
-                <option value="Debit">Debit</option>
-                <option value="Credit">Credit</option>
+                <option value="LBS">lbs</option>
+                <option value="EACH">ea</option>
               </select>
             </div>
             <div className={styles.modalButtons}>
