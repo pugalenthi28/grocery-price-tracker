@@ -59,9 +59,10 @@ export default function Home() {
         body: JSON.stringify({
           date: newBill.date,
           product: newBill.product,
+          productType: newBill.productType,
           apna_amount: Number(newBill.apna_amount), // Ensure amount is a number
           ism_amount: Number(newBill.ism_amount), // Ensure amount is a number
-          per_lbs_pc: newBill.per_lb_pc,
+          per_lb_pc: newBill.per_lb_pc,
         }),
         headers: {
           "Content-Type": "application/json",
