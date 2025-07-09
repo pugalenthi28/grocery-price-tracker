@@ -46,8 +46,10 @@ export default function Home() {
     if (
       !newBill.date ||
       !newBill.product ||
+      !newBill.productType ||
       !newBill.apna_amount ||
-      !newBill.ism_amount
+      !newBill.ism_amount ||
+      !newBill.per_lb_pc
     ) {
       alert("Please fill in all fields.");
       return;
