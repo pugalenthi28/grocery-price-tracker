@@ -18,7 +18,7 @@ type Bill = {
 
 
 const productList: { [key: string]: string[] } = {
-  "Vegetables": ["Cilantro", "Coriander","Spinach","Okra","Green Beans","Green Chillies","Egg Plant","Mint","Karela"],
+  "Vegetables": ["Cilantro", "Coriander","Spinach","Okra","Green Beans","Green Chillies","Egg Plant","Mint","Karela","Curry Leaves"],
   "Rice": ["Idly", "Sona Maasori"]
 };
 
