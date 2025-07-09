@@ -9,7 +9,7 @@ const supabase = createClient(
 export async function GET() {
   try {
     // Fetch bills from Supabase
-    const { data, error } = await supabase.from('groceries_tracker').select('*');
+    const { data, error } = await supabase.from('groceries').select('*');
     if (error) throw error;
     
     // Return bills as JSON
@@ -26,7 +26,7 @@ export async function POST(req) {
   try {
     // Insert a new bill into Supabase
     const { data, error } = await supabase
-      .from('groceries_tracker')
+      .from('groceries')
       .insert([{ date, cardType, company, amount, type }]);
 
     if (error) throw error;

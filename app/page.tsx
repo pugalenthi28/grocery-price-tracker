@@ -62,7 +62,7 @@ export default function Home() {
     }
 
     try {
-      const response = await fetch("/api/groceries_tracker", {
+      const response = await fetch("/api/groceries", {
         method: "POST",
         body: JSON.stringify({
           date: newBill.date,
@@ -85,7 +85,7 @@ export default function Home() {
       // After adding the bill, re-fetch the list of bills
       const fetchBills = async () => {
         try {
-          const billsResponse = await fetch("/api/groceries_tracker");
+          const billsResponse = await fetch("/api/groceries");
           const fetchedBills = await billsResponse.json();
           setBills(fetchedBills); // Update bills state with fetched data
         } catch (error) {
@@ -114,7 +114,7 @@ export default function Home() {
   useEffect(() => {
     const fetchBills = async () => {
       try {
-        const response = await fetch("/api/groceries_tracker");
+        const response = await fetch("/api/groceries");
         const fetchedBills = await response.json();
         if (!Array.isArray(fetchedBills)) {
           console.error("Fetched bills is not an array:", fetchedBills);
